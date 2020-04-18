@@ -1,6 +1,6 @@
 {
-    "unknown": "",
-    "gravity_error": "",
+    "unknown": "Ismeretlen hiba",
+    "gravity_error": "Tiltólista létrehozása sikertelen",
     "ftl_connection_fail": "",
     "ftl_read_error": "",
     "ftl_eom_error": "",

@@ -4,7 +4,7 @@
     "ftl_connection_fail": "",
     "ftl_read_error": "",
     "ftl_eom_error": "",
-    "not_found": "",
+    "not_found": "Nebolo nájdené",
     "already_exists": "",
     "invalid_domain": "",
     "bad_request": "",

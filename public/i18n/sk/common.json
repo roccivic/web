@@ -1,6 +1,6 @@
 {
     "Details": "Detaily",
-    "Status": "",
+    "Status": "Status",
     "DNS": "",
     "Donate": "Prispejte",
     "Domain": "Doména",
@@ -20,15 +20,15 @@
     "FTL": "",
     "API": "",
     "Web": "",
-    "Version": "",
-    "Apply": "",
+    "Version": "Verzia",
+    "Apply": "Aplikovať",
     "Disable": "",
     "Permanently": "",
     "For {{time}} seconds": "",
     "For {{time}} minutes": "",
     "Custom time": "",
     "Enable": "",
-    "Cancel": "",
-    "Seconds": "",
-    "Minutes": ""
+    "Cancel": "Zrušiť",
+    "Seconds": "Sekundy",
+    "Minutes": "Minúty"
 }

@@ -53,6 +53,9 @@
     "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "eslint-config-xo-react": "^0.23.0",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
     "faker": "^4.1.0",
     "fetch-mock": "^9.5.0",
     "fs-extra": "^9.0.0",
@@ -61,11 +64,12 @@
     "jest-localstorage-mock": "^2.4.2",
     "node-fetch": "^2.6.0",
     "node-sass": "^4.14.1",
-    "prettier": "^2.0.5",
+    "prettier": "2.0.4",
     "react-scripts": "^3.4.1",
     "redux-saga-test-plan": "^4.0.0-rc.3",
     "rimraf": "^3.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "xo": "^0.30.0"
   },
   "scripts": {
     "start": "npm run generate-language-list && react-scripts start",
@@ -78,10 +82,11 @@
     "test": "react-scripts test --env=jsdom",
     "coverage": "react-scripts test --env=jsdom --coverage",
     "codecov": "codecov",
-    "lint": "eslint --ignore-path .gitignore --ext js,ts,tsx .",
-    "eject": "react-scripts eject",
+    "lint": "npm run xo",
+    "xo": "xo",
     "format": "prettier --write \"**/*.{js,tsx}\" --ignore-path .gitignore",
-    "check-format": "prettier --list-different \"**/*.{js,tsx}\" --ignore-path .gitignore"
+    "check-format": "prettier --list-different \"**/*.{js,tsx}\" --ignore-path .gitignore",
+    "eject": "react-scripts eject"
   },
   "browserslist": [
     "defaults",
@@ -94,17 +99,68 @@
   ],
   "prettier": {
     "arrowParens": "avoid",
-    "trailingComma": "none"
+    "bracketSpacing": true,
+    "singleQuote": false,
+    "trailingComma": "none",
+    "useTabs": false
   },
-  "eslintConfig": {
-    "root": true,
+  "xo": {
     "extends": [
-      "react-app"
+      "xo-react"
+    ],
+    "prettier": true,
+    "space": true,
+    "envs": [
+      "browser"
     ],
     "rules": {
+      "@typescript-eslint/consistent-type-assertions": "off",
+      "@typescript-eslint/member-ordering": "off",
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/prefer-readonly-parameter-types": "off",
+      "@typescript-eslint/promise-function-async": "off",
+      "@typescript-eslint/restrict-plus-operands": "off",
+      "camelcase": "off",
+      "capitalized-comments": "off",
+      "import/no-named-as-default": "off",
+      "import/no-unassigned-import": [
+        "error",
+        {
+          "allow": [
+            "**/*.{css,scss}"
+          ]
+        }
+      ],
+      "no-negated-condition": "off",
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "prefer-promise-reject-errors": "off",
+      "promise/prefer-await-to-then": "off",
       "react/display-name": "off",
-      "react/no-access-state-in-setstate": "error",
-      "react/prop-types": "off"
-    }
+      "react/no-array-index-key": "off",
+      "react/prop-types": "off",
+      "spaced-comment": "off",
+      "unicorn/filename-case": "off",
+      "unicorn/no-fn-reference-in-iterator": "off",
+      "unicorn/no-zero-fractions": "off",
+      "unicorn/prefer-query-selector": "off",
+      "unicorn/prevent-abbreviations": "off"
+    },
+    "overrides": [
+      {
+        "files": [
+          "src/setupTests.tsx",
+          "**/__tests__/**"
+        ],
+        "envs": [
+          "jest"
+        ]
+      }
+    ]
   }
 }

@@ -23,7 +23,7 @@ export function isValidHostname(hostname: string): boolean {
   // If the hostname without periods make a number, deny
   if (isPositiveNumber(joined)) return false;
 
-  return /^([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)+(\.([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*))*$/.test(
+  return /^([a-zA-Z\d]+(-[a-zA-Z\d]+)*)+(\.([a-zA-Z\d]+(-[a-zA-Z\d]+)*))*$/.test(
     hostname
   );
 }
@@ -39,15 +39,16 @@ export function isValidDomain(domain: string): boolean {
 export function isPositiveNumber(input: string): boolean {
   // Because parseInt has limitations, e.g. parseInt("15ex") is parsed to 15
   // Caution, does not work with negative numbers, replace with /^(\-|\+)?([0-9])$/ if needed
-  return /^[0-9]+$/.test(input);
+  return /^\d+$/.test(input);
 }
 
 export function isValidRegex(regex: string): boolean {
   try {
     new RegExp(regex);
-  } catch (e) {
+  } catch (_) {
     return false;
   }
+
   return true;
 }
 
@@ -67,7 +68,7 @@ export function isValidIpv4(address: string): boolean {
 
   // All segments must be numbers (positive)
   return segments.every(
-    segment => isPositiveNumber(segment) && parseInt(segment) < 256
+    segment => isPositiveNumber(segment) && Number.parseInt(segment) < 256
   );
 }
 
@@ -111,7 +112,7 @@ export function isValidIpv4Cidr(cidr: string): boolean {
  * @param address
  */
 export function isValidIpv6(address: string): boolean {
-  return /^[a-fA-F0-9:]+$/.test(address);
+  return /^[a-fA-F\d:]+$/.test(address);
 }
 
 /**
@@ -125,7 +126,7 @@ export function isValidIpv6(address: string): boolean {
  * @param address The IPv6 address
  */
 export function isValidIpv6OptionalPort(address: string): boolean {
-  return /^(\[[a-fA-F0-9:]+]:\d+|[a-fA-F0-9:]+)$/.test(address);
+  return /^(\[[a-fA-F\d:]+]:\d+|[a-fA-F\d:]+)$/.test(address);
 }
 
 /**
@@ -134,7 +135,7 @@ export function isValidIpv6OptionalPort(address: string): boolean {
  * @param cidr The string to check
  */
 export function isValidIpv6Cidr(cidr: string): boolean {
-  const cidrNum = parseInt(cidr);
+  const cidrNum = Number.parseInt(cidr);
 
   return !isNaN(cidrNum) && cidrNum > 0 && cidrNum <= 128 && cidrNum % 4 === 0;
 }

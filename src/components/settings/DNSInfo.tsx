@@ -36,7 +36,7 @@ export interface DNSInfoState {
   alertType: AlertType;
   showAlert: boolean;
   processing: boolean;
-  upstreamDns: Array<string>;
+  upstreamDns: string[];
   conditionalForwarding: ConditionalForwardingObject;
   options: DnsOptionsObject;
 }
@@ -226,26 +226,26 @@ class DNSInfo extends Component<WithTranslation, DNSInfoState> {
           <Col sm={6}>
             <h3>{t("Upstream DNS Servers")}</h3>
             <DnsList
+              upstreams={this.state.upstreamDns}
               onAdd={this.handleUpstreamAdd}
               onRemove={this.handleUpstreamRemove}
-              upstreams={this.state.upstreamDns}
             />
           </Col>
           <Col sm={6}>
             <h3>{t("Conditional Forwarding")}</h3>
             <ConditionalForwardingSettings
               settings={this.state.conditionalForwarding}
-              onUpdate={this.handleConditionalForwardingUpdate}
               isRouterIpValid={isRouterIpValid}
               isCidrValid={isCidrValid}
               isDomainValid={isDomainValid}
               t={t}
+              onUpdate={this.handleConditionalForwardingUpdate}
             />
             <h3>{t("DNS Options")}</h3>
             <DnsOptionSettings
               settings={this.state.options}
-              onUpdate={this.handleDnsOptionsUpdate}
               t={t}
+              onUpdate={this.handleDnsOptionsUpdate}
             />
           </Col>
         </FormGroup>

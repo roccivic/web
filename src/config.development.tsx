@@ -11,7 +11,7 @@
 import { Config } from "./config";
 
 const apiUrlBase =
-  process.env.REACT_APP_CUSTOM_API_URL || process.env.PUBLIC_URL;
+  process.env.REACT_APP_CUSTOM_API_URL ?? process.env.PUBLIC_URL;
 
 export default {
   developmentMode: true,

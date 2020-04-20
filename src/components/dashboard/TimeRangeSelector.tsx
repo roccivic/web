@@ -8,7 +8,7 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-import React, { Fragment, Suspense } from "react";
+import React, { Suspense } from "react";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import { Button } from "reactstrap";
 import {
@@ -58,7 +58,7 @@ const renderLabel = (
   }
 
   if (!props.range) {
-    return t<string>("Last 24 Hours");
+    return t("Last 24 Hours");
   }
 
   if (props.range.name === "Custom Range") {
@@ -89,9 +89,12 @@ export const TimeRangeSelector = (
 
   return (
     <DateRangePicker
+      timePicker
+      showDropdowns
       startDate={range ? range.from : translatedDateRanges[last24Hours][0]}
       endDate={range ? range.until : translatedDateRanges[last24Hours][1]}
       maxDate={translatedDateRanges[today][1]}
+      ranges={translatedDateRanges}
       onApply={(event, picker) => {
         if (
           picker.startDate.isSame(translatedDateRanges[last24Hours][0]) &&
@@ -108,17 +111,14 @@ export const TimeRangeSelector = (
           });
         }
       }}
-      timePicker={true}
-      showDropdowns={true}
-      ranges={translatedDateRanges}
     >
       <Button color="light" size={size}>
         <i className="far fa-clock fa-lg" />
         {label ? (
-          <Fragment>
+          <>
             &nbsp; &nbsp;
             {label}
-          </Fragment>
+          </>
         ) : null}
       </Button>
     </DateRangePicker>
@@ -134,10 +134,10 @@ export const TimeRangeSelectorContainer = ({ size }: { size?: string }) => (
     {context => (
       <Suspense fallback={null}>
         <TranslatedTimeRangeSelector
+          showLabel
           range={context.range}
-          onSelect={context.update}
-          showLabel={true}
           size={size}
+          onSelect={context.update}
         />
       </Suspense>
     )}

@@ -38,7 +38,7 @@ export const loadInitialPreferences = (): ApiPreferences => {
 
   try {
     return JSON.parse(cachedPreferencesString);
-  } catch (e) {
+  } catch (_) {
     return defaultPreferences;
   }
 };

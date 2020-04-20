@@ -18,7 +18,7 @@ import i18n from "i18next";
  * @param action The action with the language to apply
  */
 export function* applyLanguage(action: PayloadAction<ApiPreferences>) {
-  const language = action.payload.language;
+  const { language } = action.payload;
 
   // Only change the language if it's different
   if (i18n.language !== language) {

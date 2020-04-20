@@ -8,8 +8,6 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
 import React, { Component, FormEvent } from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import NavButton from "./NavButton";
@@ -100,9 +98,9 @@ export class EnableDisable extends Component<
       )
       // Allow new status changes when finished
       .then(this.toggleProcessing)
-      .catch(e => {
+      .catch(error => {
         // Ignore canceled requests
-        if (e.isCanceled) {
+        if (error.isCanceled) {
           return;
         }
 
@@ -173,7 +171,7 @@ export class EnableDisable extends Component<
                 type="number"
                 value={this.state.customTime}
                 onChange={e =>
-                  this.setState({ customTime: parseInt(e.target.value) })
+                  this.setState({ customTime: Number.parseInt(e.target.value) })
                 }
               />
               <InputGroupAddon addonType="append">
@@ -182,7 +180,7 @@ export class EnableDisable extends Component<
                   value={this.state.customMultiplier}
                   onChange={e =>
                     this.setState({
-                      customMultiplier: parseInt(e.target.value)
+                      customMultiplier: Number.parseInt(e.target.value)
                     })
                   }
                 >

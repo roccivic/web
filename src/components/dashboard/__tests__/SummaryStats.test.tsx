@@ -16,7 +16,7 @@ import {
   TranslatedSummaryStats
 } from "../SummaryStats";
 
-const tick = global.tick;
+const { tick } = global;
 
 const fakeData: ApiSummary = {
   active_clients: 2,

@@ -14,7 +14,7 @@ import DHCPInfo, { DHCPInfoState } from "../DHCPInfo";
 import fetchMock from "fetch-mock";
 import { WithTranslation } from "react-i18next";
 
-const tick = global.tick;
+const { tick } = global;
 
 const endpoint = "/api/settings/dhcp";
 const fakeData = {

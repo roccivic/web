@@ -87,6 +87,7 @@ class ChartTooltip extends Component<ChartTooltipProps, ChartTooltipState> {
           colors: tooltip.labelColors[i]
         }));
     }
+
     data.sort((a: any, b: any) =>
       a.data.split(": ")[0].localeCompare(b.data.split(": ")[0])
     );

@@ -16,7 +16,7 @@ export interface StatusBadgeProps extends WithTranslation {
   status: string;
 }
 
-class StatusBadge extends Component<StatusBadgeProps, {}> {
+class StatusBadge extends Component<StatusBadgeProps> {
   isEnabled = () => this.props.status === "enabled";
 
   render() {

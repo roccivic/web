@@ -22,10 +22,10 @@ it("should return the path from the base element when it exists", () => {
   const expectedBasePath = "/admin";
   const baseElement = document.createElement("base");
   baseElement.href = expectedBasePath;
-  document.head.appendChild(baseElement);
+  document.head.append(baseElement);
 
   const actualBasePath = getBasePath();
 
-  document.head.removeChild(baseElement);
+  baseElement.remove();
   expect(actualBasePath).toEqual(expectedBasePath);
 });

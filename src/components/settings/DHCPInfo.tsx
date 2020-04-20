@@ -221,8 +221,8 @@ class DHCPInfo extends Component<WithTranslation, DHCPInfoState> {
               id="startIP"
               disabled={!this.state.settings.active}
               value={this.state.settings.ip_start}
-              onChange={this.onChange("ip_start", "value")}
               invalid={!isIpStartValid}
+              onChange={this.onChange("ip_start", "value")}
             />
           </Col>
         </FormGroup>
@@ -235,8 +235,8 @@ class DHCPInfo extends Component<WithTranslation, DHCPInfoState> {
               id="endIP"
               disabled={!this.state.settings.active}
               value={this.state.settings.ip_end}
-              onChange={this.onChange("ip_end", "value")}
               invalid={!isIpEndValid}
+              onChange={this.onChange("ip_end", "value")}
             />
           </Col>
         </FormGroup>
@@ -249,8 +249,8 @@ class DHCPInfo extends Component<WithTranslation, DHCPInfoState> {
               id="routerIP"
               disabled={!this.state.settings.active}
               value={this.state.settings.router_ip}
-              onChange={this.onChange("router_ip", "value")}
               invalid={!isRouterIpValid}
+              onChange={this.onChange("router_ip", "value")}
             />
           </Col>
         </FormGroup>
@@ -264,15 +264,15 @@ class DHCPInfo extends Component<WithTranslation, DHCPInfoState> {
                 id="leaseTime"
                 disabled={!this.state.settings.active}
                 value={this.state.settings.lease_time}
+                invalid={!isLeaseTimeValid}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   this.setState(oldState => ({
                     settings: {
                       ...oldState.settings,
-                      lease_time: parseInt(e.target.value)
+                      lease_time: Number.parseInt(e.target.value)
                     }
                   }))
                 }
-                invalid={!isLeaseTimeValid}
               />
               <InputGroupAddon addonType="append">Hours</InputGroupAddon>
             </InputGroup>
@@ -287,8 +287,8 @@ class DHCPInfo extends Component<WithTranslation, DHCPInfoState> {
               id="domain"
               disabled={!this.state.settings.active}
               value={this.state.settings.domain}
-              onChange={this.onChange("domain", "value")}
               invalid={!isDomainValid}
+              onChange={this.onChange("domain", "value")}
             />
           </Col>
         </FormGroup>

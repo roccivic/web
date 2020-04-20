@@ -8,7 +8,7 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-import React, { Fragment } from "react";
+import React from "react";
 import { Col, FormGroup, Input, Label } from "reactstrap";
 import { TFunction } from "i18next";
 
@@ -36,7 +36,7 @@ const ConditionalForwardingSettings = ({
   isDomainValid,
   t
 }: ConditionalForwardingSettingsProps) => (
-  <Fragment>
+  <>
     <FormGroup check>
       <Label check>
         <Input
@@ -56,8 +56,8 @@ const ConditionalForwardingSettings = ({
           id="routerIP"
           disabled={!settings.enabled}
           value={settings.ip}
-          onChange={e => onUpdate({ ...settings, ip: e.target.value })}
           invalid={!isRouterIpValid}
+          onChange={e => onUpdate({ ...settings, ip: e.target.value })}
         />
       </Col>
     </FormGroup>
@@ -72,7 +72,7 @@ const ConditionalForwardingSettings = ({
           value={settings.cidr === -1 ? "" : settings.cidr}
           invalid={!isCidrValid}
           onChange={e => {
-            let cidr = parseInt(e.target.value);
+            let cidr = Number.parseInt(e.target.value);
 
             if (e.target.value.length === 0) {
               // Use -1 as an internal representation of the empty string.
@@ -97,12 +97,12 @@ const ConditionalForwardingSettings = ({
           id="localDomain"
           disabled={!settings.enabled}
           value={settings.domain}
-          onChange={e => onUpdate({ ...settings, domain: e.target.value })}
           invalid={!isDomainValid}
+          onChange={e => onUpdate({ ...settings, domain: e.target.value })}
         />
       </Col>
     </FormGroup>
-  </Fragment>
+  </>
 );
 
 export default ConditionalForwardingSettings;

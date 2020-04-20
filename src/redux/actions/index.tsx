@@ -10,7 +10,7 @@
 
 import { createAction } from "@reduxjs/toolkit";
 
-export const preferencesRequest = createAction<void>("PREFERENCES_REQUEST");
+export const preferencesRequest = createAction("PREFERENCES_REQUEST");
 export const preferencesSuccess = createAction<ApiPreferences>(
   "PREFERENCES_SUCCESS"
 );

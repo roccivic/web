@@ -87,6 +87,7 @@ export function makeCancelable<T>(
       if (repeatId !== null) {
         clearTimeout(repeatId);
       }
+
       hasCanceled = true;
     }
   };

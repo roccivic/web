@@ -49,7 +49,7 @@ const fakeData: ApiClientsGraph = {
   ]
 };
 
-const tick = global.tick;
+const { tick } = global;
 
 it("shows loading indicator correctly", () => {
   const wrapper = shallow(<TranslatedClientsGraph {...loadingProps} />).dive();

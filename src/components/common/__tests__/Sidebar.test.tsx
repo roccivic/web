@@ -16,7 +16,7 @@ import { RouteCustomItem, RouteGroup } from "../../../routes";
 import NavDropdown from "../NavDropdown";
 import { NavLink } from "react-router-dom";
 
-const t = global.t;
+const { t } = global;
 
 it("expands active drop down items", () => {
   const item: RouteGroup = {

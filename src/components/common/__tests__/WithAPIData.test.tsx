@@ -16,7 +16,7 @@ import {
   WithAPIDataState
 } from "../WithAPIData";
 
-const tick = global.tick;
+const { tick } = global;
 const emptyRender = () => null;
 const emptyAPICall = () => Promise.resolve({});
 
@@ -182,12 +182,12 @@ it("should clear the data when flushOnUpdate is true and props are changed", asy
   const apiCall = jest.fn(() => Promise.resolve("test"));
   const wrapper: WithAPIDataWrapper<string> = shallow(
     <WithAPIData
+      flushOnUpdate
       renderErr={emptyRender}
       renderInitial={renderInitial}
       apiCall={apiCall}
       renderOk={renderOk}
       repeatOptions={{ ignoreCancel: true, interval: 0 }}
-      flushOnUpdate={true}
     />
   );
 
@@ -210,7 +210,7 @@ it("should clear the data when flushOnUpdate is true and props are changed", asy
 });
 
 it("should use the provided data on refresh instead of hitting the API", async () => {
-  let refreshTest: ((data: any) => void) | undefined = undefined;
+  let refreshTest: ((data: any) => void) | undefined;
   const renderOk = jest.fn((data, refresh) => {
     refreshTest = refresh;
     return data;
@@ -240,7 +240,7 @@ it("should use the provided data on refresh instead of hitting the API", async (
 it("should wait for the interval after refreshing with provided data", async () => {
   jest.useFakeTimers();
 
-  let refreshTest: ((data: any) => void) | undefined = undefined;
+  let refreshTest: ((data: any) => void) | undefined;
   const renderOk = jest.fn((data, refresh) => {
     refreshTest = refresh;
     return data;
@@ -293,7 +293,7 @@ it("should pass through repeat options", async () => {
 it("should pass through repeat options after refresh", async () => {
   jest.useFakeTimers();
 
-  let refreshTest: ((data: any) => void) | undefined = undefined;
+  let refreshTest: ((data: any) => void) | undefined;
   const renderOk = jest.fn((data, refresh) => {
     refreshTest = refresh;
     return data;

@@ -8,8 +8,6 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
 import React, { MouseEvent, ReactNode } from "react";
 
 export interface NavDropdownProps {
@@ -23,6 +21,7 @@ export default ({ name, icon, isOpen, children }: NavDropdownProps) => (
   <li className={"nav-item nav-dropdown" + (isOpen ? " open" : "")}>
     <button
       className="nav-link nav-dropdown-toggle"
+      type="button"
       onClick={handleDropdownClick}
     >
       <i className={"nav-icon " + icon} />

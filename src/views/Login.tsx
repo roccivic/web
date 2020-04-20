@@ -8,7 +8,7 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-import React, { ChangeEvent, Component, FormEvent, Fragment } from "react";
+import React, { ChangeEvent, Component, FormEvent } from "react";
 import { Redirect } from "react-router-dom";
 import sha from "sha.js";
 import api from "../util/api";
@@ -56,7 +56,7 @@ class Login extends Component<LoginProps, LoginState> {
    */
   authenticate = (e?: FormEvent) => {
     // Prevent the page from reloading when the user gets redirected
-    e && e.preventDefault();
+    e?.preventDefault();
 
     // Hash the password twice before sending to the API
     let hashedPassword = sha("sha256")
@@ -79,7 +79,7 @@ class Login extends Component<LoginProps, LoginState> {
         }
 
         // Redirect to the page the user was originally going to, or if that doesn't exist, go to home
-        const locationState = this.props.location.state || {
+        const locationState = this.props.location.state ?? {
           from: { pathname: "/" }
         };
         this.props.history.push(locationState.from.pathname);
@@ -116,12 +116,12 @@ class Login extends Component<LoginProps, LoginState> {
                 // tell them they will be redirected once login is successful
                 this.props.location.state &&
                 this.props.location.state.from.pathname in routes(t) ? (
-                  <Fragment>
+                  <>
                     <br />
                     {t('You will be transferred to the "{{page}}" page', {
                       page: routes(t)[this.props.location.state.from.pathname]
                     })}
-                  </Fragment>
+                  </>
                 ) : null
               }
               {
@@ -152,12 +152,12 @@ class Login extends Component<LoginProps, LoginState> {
                 }
               >
                 <input
+                  autoFocus
                   type="password"
                   className="form-control"
                   value={this.state.password}
-                  onChange={this.handlePasswordChange}
                   placeholder={t("Password")}
-                  autoFocus
+                  onChange={this.handlePasswordChange}
                 />
               </div>
               <br />

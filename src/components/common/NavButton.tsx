@@ -22,11 +22,11 @@ const NavButton = ({ name, icon, onClick }: NavButtonProps) => (
   <li className="nav-item">
     <a
       href="#"
+      className="nav-link"
       onClick={e => {
         e.preventDefault();
         onClick(e);
       }}
-      className="nav-link"
     >
       <i className={"nav-icon " + icon} />
       {name}

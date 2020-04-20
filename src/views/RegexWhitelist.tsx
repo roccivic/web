@@ -21,11 +21,11 @@ const RegexWhitelist: FunctionComponent<WithTranslation> = props => {
     <ListPage
       title={`${t("Whitelist")} (${t("Regex")})`}
       placeholder={t("Input a regular expression")}
+      isValid={isValidRegex}
+      validationErrorMsg={t("Not a valid regular expression")}
       onAdd={api.addRegexWhitelist}
       onRemove={api.removeRegexWhitelist}
       onRefresh={api.getRegexWhitelist}
-      isValid={isValidRegex}
-      validationErrorMsg={t("Not a valid regular expression")}
       {...props}
     />
   );

@@ -21,7 +21,7 @@ import {
 
 export interface ListPageProps {
   title: string;
-  note?: {} | string;
+  note?: Record<string, unknown> | string;
   placeholder: string;
   onAdd: (domain: string) => Promise<any | never>;
   onRefresh: () => Promise<any | never>;
@@ -162,9 +162,9 @@ export class ListPage extends Component<
         <br />
         <DomainInputContainer
           placeholder={this.props.placeholder}
+          isValid={this.props.isValid}
           onEnter={this.onEnter}
           onRefresh={this.onRefresh}
-          isValid={this.props.isValid}
           onValidationError={this.handleValidationError}
         />
         {this.props.note}

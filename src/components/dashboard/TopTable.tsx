@@ -15,13 +15,13 @@ export interface TopTableInnerProps<T> {
   loading: boolean;
   title: string;
   data: T;
-  headers: Array<string>;
+  headers: string[];
   emptyMessage: string;
   isEmpty: (data: T) => boolean;
   generateRows: (data: T) => ReactNode;
 }
 
-export class TopTable<T> extends Component<TopTableInnerProps<T>, {}> {
+export class TopTable<T> extends Component<TopTableInnerProps<T>> {
   static defaultProps = {
     loading: true,
     title: "",
@@ -112,13 +112,13 @@ export default function <T, D>({
       }}
       renderInitial={() => (
         <TopTable
+          loading
           title={title}
           headers={headers}
           emptyMessage={emptyMessage}
           isEmpty={isEmpty}
           generateRows={generateRows}
           data={initialData}
-          loading={true}
           {...props}
         />
       )}
@@ -136,13 +136,13 @@ export default function <T, D>({
       )}
       renderErr={() => (
         <TopTable
+          loading
           title={title}
           headers={headers}
           emptyMessage={emptyMessage}
           isEmpty={isEmpty}
           generateRows={generateRows}
           data={initialData}
-          loading={true}
           {...props}
         />
       )}

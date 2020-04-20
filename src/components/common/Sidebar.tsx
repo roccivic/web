@@ -8,7 +8,7 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-import React, { Fragment, ReactElement, Suspense } from "react";
+import React, { ReactElement, Suspense } from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { Nav, NavItem } from "reactstrap";
@@ -42,9 +42,9 @@ export const PiholeNavItem = ({
   <NavItem>
     <NavLink
       to={item.url}
-      onClick={mobileSidebarHide}
       className="nav-link"
       activeClassName="active"
+      onClick={mobileSidebarHide}
     >
       <i className={"nav-icon " + item.icon} />
       {t(item.name)}
@@ -91,11 +91,11 @@ export const NavList = ({
   t,
   location
 }: {
-  items: Array<RouteData>;
+  items: RouteData[];
   t: TFunction;
   location: Location;
 }): ReactElement => (
-  <Fragment>
+  <>
     {items.map((item, index) => {
       // Don't show an item if it requires auth and we're not logged in
       if (item.auth && !api.loggedIn) return null;
@@ -112,20 +112,20 @@ export const NavList = ({
       // At this point it's ok to show the item
       return (item as RouteGroup).children ? (
         <PiholeNavDropdown
-          item={item as RouteGroup}
           key={index}
+          item={item as RouteGroup}
           t={t}
           location={location}
         />
       ) : (
-        <PiholeNavItem item={item as RouteItem} key={index} t={t} />
+        <PiholeNavItem key={index} item={item as RouteItem} t={t} />
       );
     })}
-  </Fragment>
+  </>
 );
 
 export interface SidebarProps extends WithTranslation {
-  items: Array<RouteData>;
+  items: RouteData[];
   location: Location;
 }
 

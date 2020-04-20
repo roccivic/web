@@ -11,10 +11,10 @@
 import React from "react";
 import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import "jest-enzyme";
+import "jest-enzyme"; // eslint-disable-line import/no-unassigned-import
 import api from "./util/api";
 import fetchMock from "fetch-mock";
-import "jest-localstorage-mock";
+import "jest-localstorage-mock"; // eslint-disable-line import/no-unassigned-import
 import { TFunction } from "i18next";
 import config from "./config";
 

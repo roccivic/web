@@ -8,7 +8,7 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-import React, { Fragment } from "react";
+import React from "react";
 import { Col, FormGroup, Input, Label } from "reactstrap";
 import { TFunction } from "i18next";
 
@@ -30,7 +30,7 @@ const DnsOptionSettings = ({
   onUpdate,
   t
 }: DnsOptionSettingsProps) => (
-  <Fragment>
+  <>
     <FormGroup row>
       <Label for="listeningBehavior" sm={5}>
         {t("Interface listening behavior")}
@@ -82,7 +82,7 @@ const DnsOptionSettings = ({
         {t("Use DNSSEC")}
       </Label>
     </FormGroup>
-  </Fragment>
+  </>
 );
 
 export default DnsOptionSettings;

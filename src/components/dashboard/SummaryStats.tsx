@@ -8,7 +8,7 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { WithAPIData } from "../common/WithAPIData";
 import api from "../../util/api";
@@ -22,12 +22,12 @@ export interface SummaryStatsProps {
   uniqueClients: number;
 }
 
-class SummaryStats extends Component<SummaryStatsProps & WithTranslation, {}> {
+class SummaryStats extends Component<SummaryStatsProps & WithTranslation> {
   render() {
     const { t } = this.props;
 
     return (
-      <Fragment>
+      <>
         <div className="col-lg-3 col-xs-12">
           <div className="card border-0 bg-success stat-height-lock">
             <div className="card-body">
@@ -84,7 +84,7 @@ class SummaryStats extends Component<SummaryStatsProps & WithTranslation, {}> {
             </div>
           </div>
         </div>
-      </Fragment>
+      </>
     );
   }
 }

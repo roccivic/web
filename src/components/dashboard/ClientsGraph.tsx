@@ -25,15 +25,14 @@ import {
 
 export interface ClientsGraphProps {
   loading: boolean;
-  labels: Array<string>;
+  labels: string[];
   timeUnit: TimeUnit;
   rangeName?: string;
-  datasets: Array<ChartDataSets>;
+  datasets: ChartDataSets[];
 }
 
 export class ClientsGraph extends Component<
-  ClientsGraphProps & WithTranslation,
-  {}
+  ClientsGraphProps & WithTranslation
 > {
   private readonly graphRef: RefObject<Line>;
 
@@ -51,7 +50,7 @@ export class ClientsGraph extends Component<
         mode: "x-axis",
         callbacks: {
           title: tooltipItem => {
-            const time = moment(tooltipItem[0].xLabel!, "HH:mm");
+            const time = moment(tooltipItem[0].xLabel, "HH:mm");
 
             const fromTime = time.clone().subtract(5, "minutes");
             const toTime = time.clone().add(4, "minutes").add(59, "seconds");
@@ -103,6 +102,7 @@ export class ClientsGraph extends Component<
         </div>
         <div className="card-body">
           <Line
+            ref={this.graphRef}
             width={970}
             height={170}
             data={{
@@ -110,7 +110,6 @@ export class ClientsGraph extends Component<
               datasets: this.props.datasets
             }}
             options={options}
-            ref={this.graphRef}
           />
         </div>
 
@@ -179,11 +178,11 @@ export const transformData = (
   const labels = overTime.map(step =>
     new Date(1000 * step.timestamp).toISOString()
   );
-  const datasets: Array<ChartDataSets> = [];
+  const datasets: ChartDataSets[] = [];
 
   // Fill in dataset metadata
   let i = 0;
-  for (let client of data.clients) {
+  for (const client of data.clients) {
     datasets.push({
       label: client.name.length !== 0 ? client.name : client.ip,
       // If we ran out of colors, make a random one
@@ -191,7 +190,7 @@ export const transformData = (
         i < colors.length
           ? colors[i]
           : "#" +
-            parseInt("" + Math.random() * 0xffffff, 10)
+            Number.parseInt(String(Math.random() * 0xffffff), 10)
               .toString(16)
               .padStart(6, "0"),
       pointRadius: 0,
@@ -205,12 +204,10 @@ export const transformData = (
   }
 
   // Fill in data & labels
-  for (let step of overTime) {
-    for (let destination in datasets) {
+  for (const step of overTime) {
+    for (const destination in datasets) {
       if (Object.prototype.hasOwnProperty.call(datasets, destination))
-        (datasets[destination].data as Array<number>).push(
-          step.data[destination]
-        );
+        (datasets[destination].data as number[]).push(step.data[destination]);
     }
   }
 

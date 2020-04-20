@@ -41,8 +41,8 @@ export default () => (
   <header className="app-header navbar">
     <button
       className="navbar-toggler d-lg-none text-white ml-3"
-      onClick={mobileSidebarToggle}
       type="button"
+      onClick={mobileSidebarToggle}
     >
       &#9776;
     </button>

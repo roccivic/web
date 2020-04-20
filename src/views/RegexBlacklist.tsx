@@ -21,11 +21,11 @@ const RegexBlacklist: FunctionComponent<WithTranslation> = props => {
     <ListPage
       title={`${t("Blacklist")} (${t("Regex")})`}
       placeholder={t("Input a regular expression")}
+      isValid={isValidRegex}
+      validationErrorMsg={t("Not a valid regular expression")}
       onAdd={api.addRegexBlacklist}
       onRemove={api.removeRegexBlacklist}
       onRefresh={api.getRegexBlacklist}
-      isValid={isValidRegex}
-      validationErrorMsg={t("Not a valid regular expression")}
       {...props}
     />
   );

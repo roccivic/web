@@ -14,7 +14,7 @@ import NavDropdown from "../NavDropdown";
 
 it("renders as open when isOpen is true", () => {
   const wrapper = shallow(
-    <NavDropdown name="test" icon="test" isOpen={true}>
+    <NavDropdown isOpen name="test" icon="test">
       {}
     </NavDropdown>
   );
@@ -35,7 +35,7 @@ it("renders as closed when isOpen is false", () => {
 it("toggles the dropdown when clicked", () => {
   const toggle = jest.fn();
   const wrapper = shallow(
-    <NavDropdown name="test" icon="test" isOpen={true}>
+    <NavDropdown isOpen name="test" icon="test">
       {}
     </NavDropdown>
   );

@@ -19,8 +19,7 @@ import Alert from "../../common/Alert";
 import { DomainInputContainer } from "../DomainInput";
 import DomainList from "../DomainList";
 
-const ignoreAPI = global.ignoreAPI;
-const tick = global.tick;
+const { ignoreAPI, tick } = global;
 
 type ListPageWrapper = ShallowWrapper<
   ListPageProps,

@@ -14,7 +14,7 @@ import api from "../../util/api";
 import VersionCard from "./VersionCard";
 import { WithAPIData } from "../common/WithAPIData";
 
-class VersionInfo extends Component<ApiVersions & WithTranslation, {}> {
+class VersionInfo extends Component<ApiVersions & WithTranslation> {
   render() {
     const { t } = this.props;
 

@@ -22,14 +22,14 @@ import {
 
 export interface QueriesGraphProps {
   loading: boolean;
-  labels: Array<Date>;
+  labels: Date[];
   timeUnit: TimeUnit;
   rangeName?: string;
-  domains_over_time: Array<number>;
-  blocked_over_time: Array<number>;
+  domains_over_time: number[];
+  blocked_over_time: number[];
 }
 
-class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
+class QueriesGraph extends Component<QueriesGraphProps & WithTranslation> {
   render() {
     const { t } = this.props;
 
@@ -72,8 +72,8 @@ class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
           title: tooltipItem => {
             const timeStr = tooltipItem[0].xLabel! as string;
             const time = timeStr.match(/(\d?\d):?(\d?\d?)/);
-            const hour = parseInt(time![1], 10);
-            const minute = parseInt(time![2], 10) || 0;
+            const hour = Number.parseInt(time![1], 10);
+            const minute = Number.parseInt(time![2], 10) || 0;
             const from = padNumber(hour) + ":" + padNumber(minute - 5) + ":00";
             const to = padNumber(hour) + ":" + padNumber(minute + 4) + ":59";
 
@@ -99,12 +99,13 @@ class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
                 percentage.toFixed(1) +
                 "%)"
               );
-            } else
-              return (
-                data.datasets![tooltipItems.datasetIndex!].label +
-                ": " +
-                tooltipItems.yLabel
-              );
+            }
+
+            return (
+              data.datasets![tooltipItems.datasetIndex!].label +
+              ": " +
+              tooltipItems.yLabel
+            );
           }
         }
       },
@@ -170,7 +171,7 @@ class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
  * @returns QueriesGraphProps QueriesGraph props
  */
 export const transformData = (
-  data: Array<ApiHistoryGraphItem>,
+  data: ApiHistoryGraphItem[],
   range: TimeRange | null
 ): QueriesGraphProps => {
   let timeUnit: TimeUnit = "hour";

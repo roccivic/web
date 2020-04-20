@@ -10,7 +10,7 @@
 
 import React from "react";
 import { shallow } from "enzyme";
-import { GlobalContextProvider } from "../index";
+import { GlobalContextProvider } from "..";
 
 it("provides all global contexts", () => {
   const wrapper = shallow(

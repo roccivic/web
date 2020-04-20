@@ -162,10 +162,11 @@ function topDomainList(length, max) {
   const numbers = [];
   const domains = unique(faker.internet.domainName, length);
 
-  for (let i = 0; i < length; i++)
-    numbers.push(faker.random.number({ max: max }));
+  for (let i = 0; i < length; i++) numbers.push(faker.random.number({ max }));
 
-  numbers.sort((a, b) => (parseInt(a, 10) > parseInt(b, 10) ? -1 : 1));
+  numbers.sort((a, b) =>
+    Number.parseInt(a, 10) > Number.parseInt(b, 10) ? -1 : 1
+  );
 
   for (let i = 0; i < length; i++) {
     result.push({
@@ -203,7 +204,9 @@ function topClientList(length, totalQueries) {
   for (let i = 0; i < length; i++)
     numbers.push(faker.random.number({ max: totalQueries }));
 
-  numbers.sort((a, b) => (parseInt(a, 10) > parseInt(b, 10) ? -1 : 1));
+  numbers.sort((a, b) =>
+    Number.parseInt(a, 10) > Number.parseInt(b, 10) ? -1 : 1
+  );
 
   for (let i = 0; i < length; i++) {
     top_clients.push({
@@ -251,7 +254,7 @@ function clientsOverTime(range, size) {
 
   return {
     over_time: graph,
-    clients: clients
+    clients
   };
 }
 
@@ -305,7 +308,7 @@ function getVersionInfo() {
         "beta",
         "test"
       ]),
-      hash: faker.internet.color().substring(1) + faker.random.number(9),
+      hash: faker.internet.color().slice(1) + faker.random.number(9),
       tag: "vDev"
     },
     ftl: {
@@ -316,7 +319,7 @@ function getVersionInfo() {
         "beta",
         "test"
       ]),
-      hash: faker.internet.color().substring(1) + faker.random.number(9),
+      hash: faker.internet.color().slice(1) + faker.random.number(9),
       tag: "vDev"
     },
     web: {
@@ -327,7 +330,7 @@ function getVersionInfo() {
         "beta",
         "test"
       ]),
-      hash: faker.internet.color().substring(1) + faker.random.number(9),
+      hash: faker.internet.color().slice(1) + faker.random.number(9),
       tag: "vDev"
     }
   };

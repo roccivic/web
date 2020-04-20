@@ -28,14 +28,14 @@ export function* autoLogin() {
   try {
     // Check if we are logged in
     yield call(api.checkAuthStatus);
-  } catch (e) {
-    if (e.key === "unauthorized") {
+  } catch (error) {
+    if (error.key === "unauthorized") {
       // The API requires authentication and we are not already logged in
       return;
     }
 
     // An unexpected error occurred while checking our logged in state
-    throw e;
+    throw error;
   }
 
   if (!api.loggedIn) {

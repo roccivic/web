@@ -45,7 +45,7 @@ export class DomainInput extends Component<
   handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    const domain = this.state.domain;
+    const { domain } = this.state;
 
     // Don't do anything for empty inputs
     if (domain.length === 0) {
@@ -73,8 +73,8 @@ export class DomainInput extends Component<
           className={`form-control ${this.state.isValid ? "" : "is-invalid"}`}
           placeholder={placeholder}
           value={this.state.domain}
-          onChange={this.handleChange}
           disabled={!api.loggedIn}
+          onChange={this.handleChange}
         />
         <span className="btn-group input-group-append">
           {api.loggedIn ? (
@@ -83,9 +83,9 @@ export class DomainInput extends Component<
             </button>
           ) : null}
           <button
-            onClick={onRefresh}
             className="btn border-secondary"
             type="button"
+            onClick={onRefresh}
           >
             <i className="fa fa-sync" />
           </button>

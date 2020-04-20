@@ -20,12 +20,12 @@ import {
 export interface DnsListNewItemProps {
   onAdd: (address: string) => void;
   isValid: (address: string) => boolean;
-  upstreams: Array<string>;
+  upstreams: string[];
 }
 
 export interface DnsListNewItemState {
   address: string;
-  selected: Array<PreconfiguredUpstreamOption>;
+  selected: PreconfiguredUpstreamOption[];
 }
 
 /**
@@ -70,22 +70,23 @@ class DnsListNewItem extends Component<
       <ListGroupItem>
         <InputGroup>
           <Typeahead
+            ref={this.typeahead}
+            positionFixed
             id="dns-list-typeahead"
-            onInputChange={address => this.setState({ address })}
-            onChange={selected => this.setState({ selected })}
             options={preconfiguredUpstreamOptions.filter(
               upstream => !this.props.upstreams.includes(upstream.address)
             )}
             selected={this.state.selected}
             emptyLabel={t("Detected custom upstream server")}
-            positionFixed
-            ref={this.typeahead}
+            onInputChange={address => this.setState({ address })}
+            onChange={selected => this.setState({ selected })}
           />
 
           <InputGroupAddon addonType="append">
             <Button
               color="success"
               size="sm"
+              disabled={!isAddressValid}
               onClick={() => {
                 // Add the server to the list
                 this.props.onAdd(this.getAddress());
@@ -94,7 +95,6 @@ class DnsListNewItem extends Component<
                 this.setState({ address: "", selected: [] });
                 this.typeahead.current.getInstance().clear();
               }}
-              disabled={!isAddressValid}
             >
               <span className="fa fa-plus" />
             </Button>

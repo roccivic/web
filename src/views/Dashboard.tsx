@@ -8,7 +8,7 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-import React, { Fragment } from "react";
+import React from "react";
 import SummaryStats from "../components/dashboard/SummaryStats";
 import QueriesGraph from "../components/dashboard/QueriesGraph";
 import { ClientsGraphContainer } from "../components/dashboard/ClientsGraph";
@@ -37,7 +37,7 @@ export default () => (
       </div>
     </div>
     {api.loggedIn ? (
-      <Fragment>
+      <>
         <div className="row">
           <div className="col-md-12">
             <ClientsGraphContainer />
@@ -67,7 +67,7 @@ export default () => (
             <TopBlockedClients />
           </div>
         </div>
-      </Fragment>
+      </>
     ) : null}
   </div>
 );

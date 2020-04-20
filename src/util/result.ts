@@ -12,14 +12,14 @@
  * A type which can be either Ok or Err, with some associated data.
  */
 export interface Result<T, E> {
-  isOk(): boolean;
-  isErr(): boolean;
-  unwrap(): T;
-  unwrapErr(): E;
+  isOk: () => boolean;
+  isErr: () => boolean;
+  unwrap: () => T;
+  unwrapErr: () => E;
 }
 
 export class Ok<T, E> implements Result<T, E> {
-  constructor(private value: T) {}
+  constructor(private readonly value: T) {}
 
   isErr(): boolean {
     return false;
@@ -34,12 +34,12 @@ export class Ok<T, E> implements Result<T, E> {
   }
 
   unwrapErr(): E {
-    throw Error("unwrapErr on a Result.Ok");
+    throw new Error("unwrapErr on a Result.Ok");
   }
 }
 
 export class Err<T, E> implements Result<T, E> {
-  constructor(private err: E) {}
+  constructor(private readonly err: E) {}
 
   isErr(): boolean {
     return true;
@@ -50,7 +50,7 @@ export class Err<T, E> implements Result<T, E> {
   }
 
   unwrap(): T {
-    throw Error("unwrap on a Result.Err");
+    throw new Error("unwrap on a Result.Err");
   }
 
   unwrapErr(): E {

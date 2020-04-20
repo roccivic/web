@@ -22,7 +22,7 @@ import NavButton from "../NavButton";
 import NavDropdown from "../NavDropdown";
 import { Form, Input, Modal, ModalFooter, ModalHeader } from "reactstrap";
 
-const tick = global.tick;
+const { tick } = global;
 
 type EnableDisableWrapper = ShallowWrapper<
   EnableDisableProps,
@@ -80,7 +80,7 @@ describe("EnableDisable", () => {
     const testCall = async (
       initialStatus: Status,
       buttonIndex: number,
-      setStatusArgs: Array<any>,
+      setStatusArgs: any[],
       expectedStatus: any
     ) => {
       const setStatus = jest.fn(() =>

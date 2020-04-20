@@ -104,6 +104,7 @@ export class WithAPIData<T> extends Component<
         // refresh with data from the API
         setTimeout(() => this.loadData(), cancelOptions.interval);
       }
+
       return;
     }
 
@@ -140,11 +141,7 @@ export class WithAPIData<T> extends Component<
     }
   }
 
-  componentDidUpdate(
-    prevProps: Readonly<WithAPIDataProps<T>>,
-    prevState: Readonly<WithAPIDataState<T>>,
-    snapshot?: any
-  ): void {
+  componentDidUpdate(prevProps: Readonly<WithAPIDataProps<T>>): void {
     if (prevProps === this.props) {
       // Don't do anything if the props didn't change
       return;
@@ -153,6 +150,7 @@ export class WithAPIData<T> extends Component<
     if (this.props.flushOnUpdate) {
       // The props changed, so trigger a full reload of the data. Current data is
       // cleared so that loading indicators are shown.
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ apiResult: null });
       this.loadData();
     }
@@ -165,11 +163,11 @@ export class WithAPIData<T> extends Component<
 
     if (this.state.apiResult.isOk()) {
       return this.props.renderOk(this.state.apiResult.unwrap(), this.loadData);
-    } else {
-      return this.props.renderErr(
-        this.state.apiResult.unwrapErr(),
-        this.loadData
-      );
     }
+
+    return this.props.renderErr(
+      this.state.apiResult.unwrapErr(),
+      this.loadData
+    );
   }
 }

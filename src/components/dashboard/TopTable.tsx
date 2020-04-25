@@ -15,7 +15,7 @@ export interface TopTableInnerProps<T> {
   loading: boolean;
   title: string;
   data: T;
-  headers: Array<string>;
+  headers: string[];
   emptyMessage: string;
   isEmpty: (data: T) => boolean;
   generateRows: (data: T) => ReactNode;
@@ -118,7 +118,7 @@ export default function <T, D>({
           isEmpty={isEmpty}
           generateRows={generateRows}
           data={initialData}
-          loading={true}
+          loading
           {...props}
         />
       )}
@@ -142,7 +142,7 @@ export default function <T, D>({
           isEmpty={isEmpty}
           generateRows={generateRows}
           data={initialData}
-          loading={true}
+          loading
           {...props}
         />
       )}

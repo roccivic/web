@@ -1,11 +1,11 @@
 {
-  "Last 24 Hours": "",
-  "Today": "",
-  "Yesterday": "",
-  "Last 7 Days": "",
-  "Last 30 Days": "",
-  "This Month": "",
-  "Last Month": "",
-  "This Year": "",
-  "All Time": ""
+  "Last 24 Hours": "последните 24 часа",
+  "Today": "днес",
+  "Yesterday": "вчера",
+  "Last 7 Days": "последните 7 дена",
+  "Last 30 Days": "последните 30 дни",
+  "This Month": "този месец",
+  "Last Month": "миналият месец",
+  "This Year": "тази година",
+  "All Time": "цялото време"
 }

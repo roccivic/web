@@ -1,6 +1,6 @@
 {
     "Query Log": "Заявките логове",
-    "Whitelist": "Белия списък",
+    "Whitelist": "Бял списък",
     "Blacklist": "Черен списък",
     "Dashboard": "Начало",
     "Exact": "Точен {{текст / TEXT}}",
@@ -12,8 +12,8 @@
     "Exact blacklist": "",
     "Regex whitelist": "",
     "Regex blacklist": "",
-    "Settings": "",
-    "Networking": "",
-    "Versions": "",
-    "Preferences": ""
+    "Settings": "Настройки",
+    "Networking": "Омрежване",
+    "Versions": "Версии",
+    "Preferences": "Предпочитания"
 }

@@ -10,7 +10,7 @@
 
 import React, { Component, RefObject } from "react";
 import ReactDOM from "react-dom";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { WithTranslation, withTranslation } from "react-i18next";
 import moment from "moment";
 import { getIntervalForRange } from "../../util/graphUtils";
@@ -35,7 +35,7 @@ export class ClientsGraph extends Component<
   ClientsGraphProps & WithTranslation,
   {}
 > {
-  private readonly graphRef: RefObject<Line>;
+  private readonly graphRef: RefObject<Bar>;
 
   constructor(props: ClientsGraphProps & WithTranslation) {
     super(props);
@@ -79,7 +79,8 @@ export class ClientsGraph extends Component<
               unit: this.props.timeUnit,
               displayFormats: { hour: "HH:mm" },
               tooltipFormat: "HH:mm"
-            }
+            },
+            stacked: true
           }
         ],
         yAxes: [
@@ -102,7 +103,7 @@ export class ClientsGraph extends Component<
           {t("Clients Over {{range}}", { range })}
         </div>
         <div className="card-body">
-          <Line
+          <Bar
             width={970}
             height={170}
             data={{

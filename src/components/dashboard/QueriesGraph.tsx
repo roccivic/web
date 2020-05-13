@@ -8,13 +8,16 @@
  * This file is copyright under the latest version of the EUPL.
  * Please see LICENSE file for your rights under this license. */
 
-import React, { Component } from "react";
+import React, { Component, RefObject } from "react";
+import ReactDOM from "react-dom";
+import { Bar } from "react-chartjs-2";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { getIntervalForRange, padNumber } from "../../util/graphUtils";
-import api from "../../util/api";
+import moment from "moment";
+import { getIntervalForRange } from "../../util/graphUtils";
+import api, { ApiClient } from "../../util/api";
+import ChartTooltip from "./ChartTooltip";
 import { WithAPIData } from "../common/WithAPIData";
-import { ChartData, ChartOptions, TimeUnit } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { ChartDataSets, ChartOptions, TimeUnit } from "chart.js";
 import {
   TimeRange,
   TimeRangeContext
@@ -25,86 +28,46 @@ export interface QueriesGraphProps {
   labels: Array<Date>;
   timeUnit: TimeUnit;
   rangeName?: string;
-  domains_over_time: Array<number>;
-  blocked_over_time: Array<number>;
+  datasets: Array<ChartDataSets>;
 }
 
-class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
+
+export class QueriesGraph extends Component<
+QueriesGraphProps & WithTranslation,
+  {}
+> {
+  private readonly graphRef: RefObject<Bar>;
+
+  constructor(props: QueriesGraphProps & WithTranslation) {
+    super(props);
+    this.graphRef = React.createRef();
+  }
+
   render() {
     const { t } = this.props;
 
-    const data: ChartData = {
-      // @ts-ignore
-      labels: this.props.labels,
-      datasets: [
-        {
-          label: t("Total Queries"),
-          data: this.props.domains_over_time,
-          fill: true,
-          backgroundColor: "rgba(220,220,220,0.5)",
-          borderColor: "rgba(0, 166, 90,.8)",
-          pointBorderColor: "rgba(0, 166, 90,.8)",
-          pointRadius: 1,
-          pointHoverRadius: 5,
-          pointHitRadius: 5,
-          cubicInterpolationMode: "monotone"
-        },
-        {
-          label: t("Blocked Queries"),
-          data: this.props.blocked_over_time,
-          fill: true,
-          backgroundColor: "rgba(0,192,239,0.5)",
-          borderColor: "rgba(0,192,239,1)",
-          pointBorderColor: "rgba(0,192,239,1)",
-          pointRadius: 1,
-          pointHoverRadius: 5,
-          pointHitRadius: 5,
-          cubicInterpolationMode: "monotone"
-        }
-      ]
-    };
-
     const options: ChartOptions = {
       tooltips: {
-        enabled: true,
+        enabled: false,
         mode: "x-axis",
         callbacks: {
           title: tooltipItem => {
-            const timeStr = tooltipItem[0].xLabel! as string;
-            const time = timeStr.match(/(\d?\d):?(\d?\d?)/);
-            const hour = parseInt(time![1], 10);
-            const minute = parseInt(time![2], 10) || 0;
-            const from = padNumber(hour) + ":" + padNumber(minute - 5) + ":00";
-            const to = padNumber(hour) + ":" + padNumber(minute + 4) + ":59";
+            const time = moment(tooltipItem[0].xLabel!, "HH:mm");
+
+            const fromTime = time.clone().subtract(5, "minutes");
+            const toTime = time.clone().add(4, "minutes").add(59, "seconds");
+
+            const from = fromTime.format("HH:mm:ss");
+            const to = toTime.format("HH:mm:ss");
 
             return t("Queries from {{from}} to {{to}}", { from, to });
           },
           label: (tooltipItems, data) => {
-            if (tooltipItems.datasetIndex === 1) {
-              let percentage = 0.0;
-              const total = data.datasets![0].data![
-                tooltipItems.index!
-              ] as number;
-              const blocked = data.datasets![1].data![
-                tooltipItems.index!
-              ] as number;
-
-              if (total > 0) percentage = (100.0 * blocked) / total;
-
-              return (
-                data.datasets![tooltipItems.datasetIndex].label +
-                ": " +
-                tooltipItems.yLabel +
-                " (" +
-                percentage.toFixed(1) +
-                "%)"
-              );
-            } else
-              return (
-                data.datasets![tooltipItems.datasetIndex!].label +
-                ": " +
-                tooltipItems.yLabel
-              );
+            return (
+              data.datasets![tooltipItems.datasetIndex!].label +
+              ": " +
+              tooltipItems.yLabel
+            );
           }
         }
       },
@@ -117,7 +80,8 @@ class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
               unit: this.props.timeUnit,
               displayFormats: { hour: "HH:mm" },
               tooltipFormat: "HH:mm"
-            }
+            },
+            stacked: true
           }
         ],
         yAxes: [
@@ -139,8 +103,18 @@ class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
           {t("Queries Over {{range}}", { range })}
         </div>
         <div className="card-body">
-          <Line width={970} height={170} data={data} options={options} />
+          <Bar
+            width={970}
+            height={170}
+            data={{
+              labels: this.props.labels,
+              datasets: this.props.datasets
+            }}
+            options={options}
+            ref={this.graphRef}
+          />
         </div>
+
         {this.props.loading ? (
           <div
             className="card-img-overlay"
@@ -157,6 +131,14 @@ class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
             />
           </div>
         ) : null}
+
+        {
+          // Now you're thinking with portals!
+          ReactDOM.createPortal(
+            <ChartTooltip chart={this.graphRef} handler={options.tooltips!} />,
+            document.body
+          )
+        }
       </div>
     );
   }
@@ -167,13 +149,15 @@ class QueriesGraph extends Component<QueriesGraphProps & WithTranslation, {}> {
  *
  * @param data The API data
  * @param range The time range to use
- * @returns QueriesGraphProps QueriesGraph props
+ * @returns {{labels: Date[], datasets: Array, loading: boolean}} QueriesGraphProps
  */
 export const transformData = (
   data: Array<ApiHistoryGraphItem>,
   range: TimeRange | null
 ): QueriesGraphProps => {
   let timeUnit: TimeUnit = "hour";
+
+  const datasets: Array<ChartDataSets> = [];
 
   if (range) {
     if (range.until.diff(range.from, "day") > 1) {
@@ -185,16 +169,34 @@ export const transformData = (
   }
 
   const labels = data.map(step => new Date(1000 * step.timestamp));
-  const domains_over_time = data.map(step => step.total_queries);
-  const blocked_over_time = data.map(step => step.blocked_queries);
+
+  datasets.push({
+    label: 'blocked',
+    backgroundColor: "#f86c6b",
+    pointRadius: 0,
+    pointHitRadius: 5,
+    pointHoverRadius: 5,
+    cubicInterpolationMode: "monotone",
+    data: []
+  });
+  datasets[0].data = data.map(step => step.blocked_queries);
+  datasets.push({
+    label: 'total',
+    backgroundColor: "#20a8d8",
+    pointRadius: 0,
+    pointHitRadius: 5,
+    pointHoverRadius: 5,
+    cubicInterpolationMode: "monotone",
+    data: []
+  });
+  datasets[1].data = data.map(step => step.total_queries);
 
   return {
     loading: false,
     labels,
     timeUnit,
     rangeName: range ? range.name : undefined,
-    domains_over_time,
-    blocked_over_time
+    datasets
   };
 };
 
@@ -206,8 +208,7 @@ export const loadingProps: QueriesGraphProps = {
   labels: [],
   timeUnit: "hour",
   rangeName: "---",
-  domains_over_time: [],
-  blocked_over_time: []
+  datasets: []
 };
 
 export const TranslatedQueriesGraph = withTranslation([
@@ -215,17 +216,23 @@ export const TranslatedQueriesGraph = withTranslation([
   "time-ranges"
 ])(QueriesGraph);
 
-export default (props: any) => (
+export interface QueriesGraphContainerProps {
+  apiClient: ApiClient;
+}
+
+export const QueriesGraphContainer = ({
+  apiClient
+}: QueriesGraphContainerProps) => (
   <TimeRangeContext.Consumer>
     {context => (
       <WithAPIData
         apiCall={() =>
           context.range
-            ? api.getHistoryGraphDb(
+            ? apiClient.getHistoryGraphDb(
                 context.range,
                 getIntervalForRange(context.range)
               )
-            : api.getHistoryGraph()
+            : apiClient.getHistoryGraph()
         }
         repeatOptions={
           context.range
@@ -235,19 +242,16 @@ export default (props: any) => (
                 ignoreCancel: true
               }
         }
-        renderInitial={() => (
-          <TranslatedQueriesGraph {...loadingProps} {...props} />
-        )}
+        renderInitial={() => <TranslatedQueriesGraph {...loadingProps} />}
         renderOk={data => (
-          <TranslatedQueriesGraph
-            {...transformData(data, context.range)}
-            {...props}
-          />
+          <TranslatedQueriesGraph {...transformData(data, context.range)} />
         )}
-        renderErr={() => (
-          <TranslatedQueriesGraph {...loadingProps} {...props} />
-        )}
+        renderErr={() => <TranslatedQueriesGraph {...loadingProps} />}
       />
     )}
   </TimeRangeContext.Consumer>
 );
+
+QueriesGraphContainer.defaultProps = {
+  apiClient: api
+};
